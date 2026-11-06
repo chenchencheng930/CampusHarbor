@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="900" y2="940" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3457E5"/>
+      <stop offset="0.52" stop-color="#247FCB"/>
+      <stop offset="1" stop-color="#19A99B"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="390" y1="405" x2="640" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3C62E8"/>
+      <stop offset="1" stop-color="#13A99B"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#173D76" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+
+  <circle cx="168" cy="176" r="116" fill="#FFFFFF" opacity="0.055"/>
+  <circle cx="862" cy="824" r="176" fill="#FFFFFF" opacity="0.05"/>
+  <path d="M78 716C238 628 322 676 442 730C572 789 704 824 946 676V1024H78V716Z" fill="#FFFFFF" opacity="0.055"/>
+
+  <g filter="url(#shadow)">
+    <path d="M512 164C316 164 190 285 190 456C190 568 246 657 340 713L318 826L442 752C465 756 488 758 512 758C708 758 834 637 834 466C834 285 708 164 512 164Z" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Protective harbor / embracing hands -->
+  <path d="M298 494C298 351 389 270 512 270C635 270 726 351 726 494" fill="none" stroke="#254FC9" stroke-width="54" stroke-linecap="round"/>
+  <path d="M298 494C298 617 387 688 512 688C637 688 726 617 726 494" fill="none" stroke="#16A597" stroke-width="54" stroke-linecap="round"/>
+
+  <!-- Heart shaped safe harbor -->
+  <path d="M512 626C485 600 394 536 394 455C394 398 432 362 481 362C504 362 526 374 542 395C558 374 580 362 603 362C652 362 690 398 690 455C690 536 599 600 572 626L542 651L512 626Z" fill="url(#heart)"/>
+  <path d="M542 395C526 374 504 362 481 362C432 362 394 398 394 455C394 536 485 600 512 626L542 651V395Z" fill="#4267E6" opacity="0.88"/>
+
+  <!-- Conversation line / calm wave -->
+  <path d="M435 487C468 458 500 458 532 487C564 516 596 516 629 487" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
+
+  <!-- AI constellation -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity="0.96">
+    <path d="M651 284L701 318L674 365"/>
+    <path d="M651 284L620 331"/>
+  </g>
+  <g fill="#FFFFFF">
+    <circle cx="651" cy="284" r="18"/>
+    <circle cx="701" cy="318" r="18"/>
+    <circle cx="674" cy="365" r="18"/>
+    <circle cx="620" cy="331" r="18"/>
+  </g>
+
+  <!-- Small lighthouse spark -->
+  <path d="M341 294V248M318 271H364" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+</svg>

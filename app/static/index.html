@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusHarbor 登录</title>
+  <link rel="stylesheet" href="/styles.css?v=campusharbor-entry-art-20261020">
+</head>
+<body class="portal-page">
+  <header class="topbar portal-topbar">
+    <div class="brand">
+      <div class="logo">CH</div>
+      <div>
+        <p class="eyebrow">CAMPUS HARBOR AGENT</p>
+        <h1>CampusHarbor 校园心理智能体</h1>
+      </div>
+    </div>
+    <div class="status-row">
+      <span id="serviceState" class="pill warn">连接中</span>
+      <span id="modelState" class="pill warn">模型读取中</span>
+    </div>
+  </header>
+
+  <main class="login-shell">
+    <section class="login-panel">
+      <p class="panel-label">ACCOUNT GATE</p>
+      <h2>选择账号进入对应工作台</h2>
+      <form id="loginForm" class="login-form">
+        <label>
+          <span>用户名</span>
+          <input id="username" value="student" autocomplete="username">
+        </label>
+        <label>
+          <span>密码</span>
+          <input id="password" value="student123" type="password" autocomplete="current-password">
+        </label>
+        <button class="primary full" type="submit">登录并进入</button>
+        <p id="loginState" class="hint">请先选择入口，再核验账号密码。</p>
+      </form>
+      <button id="showRegister" class="ghost full" type="button">没有账号？注册新账号</button>
+      <form id="registerForm" class="login-form hidden" autocomplete="off">
+        <label><span>手机号</span><input id="registerUsername" type="tel" inputmode="numeric" autocomplete="tel" minlength="11" maxlength="11" pattern="1[3-9][0-9]{9}" placeholder="请输入 11 位手机号" required></label>
+        <label><span>密码（至少 8 位）</span><input id="registerPassword" type="password" minlength="8" required></label>
+        <label id="registerNameLabel"><span>姓名</span><input id="registerDisplayName" required autocomplete="name"></label>
+        <label id="registerStudentNumberLabel"><span>学号</span><input id="registerStudentNumber" minlength="4" maxlength="32" pattern="[A-Za-z0-9-]+"></label>
+        <label><span>注册类型</span><select id="registerType"><option value="student">学生</option><option value="admin">管理员</option></select></label>
+        <div id="adminFields" class="hidden">
+          <label><span>学校名册工号</span><input id="registerEmployeeNumber" maxlength="64" pattern="[A-Za-z0-9-]+"></label>
+          <p class="hint">身份、学校和学院由学校导入的教职工名单自动确定，不提交权限申请。</p>
+        </div>
+        <button class="primary full" type="submit">注册并登录</button>
+        <p id="registerState" class="hint"></p>
+      </form>
+    </section>
+
+    <section class="entry-grid" aria-label="角色入口说明">
+      <article class="entry-card student-entry role-entry" role="button" tabindex="0" data-role="student" aria-label="选择学生端账号">
+        <img class="entry-art" src="/assets/student-companion.png" alt="学生与校园陪伴智能体交流" fetchpriority="high">
+        <span class="entry-kicker">STUDENT</span>
+        <h3>学生端</h3>
+        <p>只提供心理陪伴对话、快捷表达和会话状态。</p>
+        <span class="entry-action">选择学生端 →</span>
+      </article>
+      <article class="entry-card admin-entry role-entry" role="button" tabindex="0" data-role="admin" aria-label="选择教职工端账号">
+        <img class="entry-art" src="/assets/staff-dashboard.png" alt="教职工使用校园管理智能体工作台" fetchpriority="high">
+        <span class="entry-kicker">COUNSELOR ADMIN</span>
+        <h3>教职工端</h3>
+        <p>提供学校名单导入、风险个案和危机通知等分级管理能力。</p>
+        <span class="entry-action">选择管理员端 →</span>
+      </article>
+    </section>
+  </main>
+
+  <script src="/app.js?v=campusharbor-phone-20261020"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusHarbor 管理员端</title>
+  <link rel="stylesheet" href="/styles.css?v=campusharbor-entry-art-20261020">
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo admin-logo">CH</div>
+      <div>
+        <p class="eyebrow">COUNSELOR ADMIN</p>
+        <h1>CampusHarbor 管理后台</h1>
+        <p class="topbar-subtitle">校园心理风险监测与咨询数据中心</p>
+      </div>
+    </div>
+    <div class="status-row">
+      <span id="serviceState" class="pill warn">连接中</span>
+      <span id="modelState" class="pill warn">模型读取中</span>
+      <div id="accountBadge" class="account">
+        <strong id="activeAccount">管理员</strong>
+        <span>管理员端</span>
+      </div>
+      <button id="refreshAdmin" class="ghost" type="button">刷新</button>
+      <button id="switchAccount" class="dark-btn" type="button">退出</button>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <section class="admin-hero" aria-label="教职工工作台介绍">
+      <img class="admin-hero-art" src="/assets/staff-dashboard.png" alt="教职工使用校园管理智能体工作台" fetchpriority="high">
+      <div class="admin-hero-copy">
+        <p class="panel-label">CAMPUSHARBOR STAFF WORKSPACE</p>
+        <h2>让每一次风险处置都有边界、有依据</h2>
+        <p>名单归属、风险个案与危机通知集中协作，必要身份访问全程审计。</p>
+      </div>
+    </section>
+    <section id="adminGatePanel" class="panel role-panel hidden"></section>
+    <section id="rosterPanel" class="panel role-panel hidden">
+      <div class="section-head"><div><p class="panel-label">ORGANIZATION ROSTER</p><h2>学校组织名单导入</h2></div></div>
+      <p class="case-privacy-hint">学生名单按学院自动归属辅导员；学校管理员导入辅导员名单后，匹配工号的账号自动获得对应权限，不再提交申请或等待审批。</p>
+      <form id="rosterImportForm" class="upload-row"><input id="rosterFile" type="file" accept=".csv,text/csv" required><button class="primary" type="submit">导入 CSV 名单</button></form>
+      <div class="admin-actions"><button id="downloadRosterTemplate" class="ghost" type="button">下载学生模板</button><button id="downloadStaffTemplate" class="ghost" type="button">下载辅导员模板</button></div>
+      <p id="accessState" class="hint"></p>
+    </section>
+    <section id="advisorPanel" class="panel role-panel hidden">
+      <div class="section-head"><div><p class="panel-label">CRISIS NOTICES</p><h2>责任学生高风险通知</h2></div></div>
+      <p class="case-privacy-hint">仅显示已分配给你的学生 UID、风险等级和处置建议，不展示聊天内容。</p>
+      <div id="advisorAlerts" class="approval-list"></div>
+    </section>
+    <section class="admin-grid counselor-only" aria-label="核心运营指标">
+      <div class="metric metric-blue">
+        <span>咨询报告</span>
+        <strong id="metricReports">0</strong>
+        <small id="metricReportsMeta">累计沉淀</small>
+      </div>
+      <div class="metric metric-red">
+        <span>高风险报告</span>
+        <strong id="metricHigh">0</strong>
+        <small id="metricHighMeta">占比 0%</small>
+      </div>
+      <div class="metric metric-amber">
+        <span>风险个案</span>
+        <strong id="metricCases">0</strong>
+        <small id="metricCasesMeta">待跟进 0</small>
+      </div>
+      <div class="metric metric-teal">
+        <span>Excel 写入</span>
+        <strong id="metricExcel">0</strong>
+        <small id="metricExcelMeta">成功 0</small>
+      </div>
+      <div class="metric metric-purple">
+        <span>风险预警</span>
+        <strong id="metricAlerts">0</strong>
+        <small id="metricAlertsMeta">发送成功 0</small>
+      </div>
+    </section>
+
+    <section class="dashboard-section counselor-only" aria-labelledby="insightTitle">
+      <div class="dashboard-title-row">
+        <div>
+          <p class="panel-label">DATA INSIGHTS</p>
+          <h2 id="insightTitle">咨询与风险数据洞察</h2>
+        </div>
+        <span id="lastUpdated" class="update-stamp">等待数据刷新</span>
+      </div>
+
+      <div class="analytics-layout">
+        <article class="panel trend-panel">
+          <div class="chart-head">
+            <div>
+              <p class="panel-label">7-DAY TREND</p>
+              <h3>近 7 日报告趋势</h3>
+            </div>
+            <span id="trendTotal" class="chart-total">共 0 条</span>
+          </div>
+          <div id="activityTrend" class="trend-chart" aria-label="近 7 日报告数量"></div>
+        </article>
+
+        <div class="distribution-grid">
+          <article class="insight-card">
+            <div>
+              <p class="panel-label">RISK LEVEL</p>
+              <h3>风险等级</h3>
+            </div>
+            <div id="riskDistribution" class="distribution-list"></div>
+          </article>
+          <article class="insight-card">
+            <div>
+              <p class="panel-label">EMOTION</p>
+              <h3>情绪分布</h3>
+            </div>
+            <div id="emotionDistribution" class="distribution-list"></div>
+          </article>
+          <article class="insight-card">
+            <div>
+              <p class="panel-label">INTENT</p>
+              <h3>意图类型</h3>
+            </div>
+            <div id="intentDistribution" class="distribution-list"></div>
+          </article>
+          <article class="insight-card">
+            <div>
+              <p class="panel-label">DELIVERY</p>
+              <h3>工具状态</h3>
+            </div>
+            <div id="toolDistribution" class="distribution-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-data-grid counselor-only">
+      <section class="panel data-panel">
+        <div class="section-head">
+          <div>
+            <p class="panel-label">CASES</p>
+            <h2>风险个案闭环</h2>
+          </div>
+          <span id="casesCount" class="section-count">0 个个案</span>
+        </div>
+        <p class="case-privacy-hint">只有高风险事件进入个案列表。心理中心老师接手后，填写处置原因并确认用途即可查看必要身份；每次访问都会审计，聊天原文不开放。</p>
+        <div id="cases" class="cases scroll-list"></div>
+      </section>
+
+      <section class="panel data-panel">
+        <div class="section-head">
+          <div>
+            <p class="panel-label">REPORTS</p>
+            <h2>咨询报告记录</h2>
+          </div>
+          <span id="reportsCount" class="section-count">0 条报告</span>
+        </div>
+        <div id="reports" class="reports scroll-list"></div>
+      </section>
+
+      <section class="panel data-panel">
+        <div class="section-head">
+          <div>
+            <p class="panel-label">DELIVERY LOG</p>
+            <h2>工具执行记录</h2>
+          </div>
+        </div>
+        <div class="delivery-block">
+          <div class="delivery-heading">
+            <strong>Excel 写入</strong>
+            <span id="excelCount">0 条</span>
+          </div>
+          <div id="excelRecords" class="delivery-list"></div>
+        </div>
+        <div class="delivery-block">
+          <div class="delivery-heading">
+            <strong>预警发送</strong>
+            <span id="alertCount">0 条</span>
+          </div>
+          <div id="alertRecords" class="delivery-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="admin-detail-grid organization-only">
+      <section class="panel">
+        <div class="section-head"><div><p class="panel-label">ORGANIZATION</p><h2>学校组织与班级管理</h2></div><span id="orgScope" class="hint">权限读取中</span></div>
+        <form id="classCreateForm" class="upload-row"><input id="className" placeholder="班级名称，如 2025级软件工程1班" required><input id="classCollege" placeholder="学院"><button class="primary" type="submit">创建班级</button></form>
+        <div class="admin-actions"><input id="studentSearch" placeholder="搜索学生 UID / 姓名"><button id="searchStudents" class="ghost" type="button">搜索学生</button></div>
+        <div id="adminClasses" class="scroll-list"></div><div id="studentSearchResults" class="scroll-list"></div>
+        <h3>待审批申请</h3><div id="classApplications" class="scroll-list"></div>
+        <p id="orgState" class="hint">学生心理咨询原文不会在此展示，仅展示组织关系和必要风险状态。</p>
+      </section>
+    </section>
+  </main>
+
+  <script src="/admin.js?v=campusharbor-roster-status-20261020"></script>
+</body>
+</html>
